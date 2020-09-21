@@ -9,7 +9,6 @@ const taskInput = document.querySelector('#task')
 //Load all event listeners
 
 loadEventListerners()
-debugger
 
 //Load all event listeners
 function loadEventListerners() {
@@ -62,8 +61,6 @@ function getTasks() {
             //Append the link to li
             li.appendChild(link)
 
-            // console.log(li)
-
             // //Append li to ul
             tasklist.appendChild(li)
         }
@@ -72,41 +69,41 @@ function getTasks() {
 
 //Add Task
 function addTask(e) {
-    debugger
     if (taskInput.value === '') {
         alert('Add a task')
     }
+    else{
 
-    //create li element
-    const li = document.createElement('li')
+        //create li element
+        const li = document.createElement('li')
 
-    //Adding class
-    li.className = 'collection-item'
+        //Adding class
+        li.className = 'collection-item'
 
-    //create TextNode
-    li.appendChild(document.createTextNode(taskInput.value))
+        //create TextNode
+        li.appendChild(document.createTextNode(taskInput.value))
 
-    //create new link element
-    const link = document.createElement('a')
+        //create new link element
+        const link = document.createElement('a')
 
-    //Add class
-    link.className = 'delete-item secondary-content'
+        //Add class
+        link.className = 'delete-item secondary-content'
 
-    //Add icon HTML
-    link.innerHTML = '<i class ="fa fa-remove"> </i>'
+        //Add icon HTML
+        link.innerHTML = '<i class ="fa fa-remove"> </i>'
 
-    //Append the link to li
-    li.appendChild(link)
+        //Append the link to li
+        li.appendChild(link)
 
-    // console.log(li)
+        // console.log(li)
 
-    // //Append li to ul
-    tasklist.appendChild(li)
+        // //Append li to ul
+        tasklist.appendChild(li)
+        storeTaskInLocalStorage(taskInput.value)
 
-    storeTaskInLocalStorage(taskInput.value)
-
-    //clear input
-    taskInput.value = ''
+        //clear input
+        taskInput.value = ''
+    }
 
     //PREVENTING DEFAULT BEHAVIOUR 
     e.preventDefault()
@@ -121,15 +118,12 @@ function storeTaskInLocalStorage(task) {
     else {
         tasks = JSON.parse(localStorage.getItem('tasks'))
     }
-
     tasks.push(task)
-
     localStorage.setItem('tasks', JSON.stringify(tasks))
 }
 
 //Delete Task
 function removeTask(e) {
-    debugger
     if (e.target.parentElement.classList.contains('delete-item')) {
         if (confirm('Are you sure?')) {
             e.target.parentElement.parentElement.remove()
@@ -149,15 +143,12 @@ function removeTaskFromLocalStorage(taskItem){
     else {
         tasks = JSON.parse(localStorage.getItem('tasks'))
     }
-    
     tasks.forEach(function(task, index){
         if(taskItem.textContent === task){
             tasks.splice(index, 1)
         }
     })
-
     localStorage.setItem('tasks', JSON.stringify(tasks))
-
 }
 
 //Clear Tasks
@@ -170,7 +161,6 @@ function clearTasks() {
     //Clear from LS
     clearTasksFromLocalStorage()
 }
-
 //Clearing tasks from LS
 function clearTasksFromLocalStorage(){
     localStorage.clear()
@@ -179,7 +169,6 @@ function clearTasksFromLocalStorage(){
 //Filter Tasks
 function filterTasks(e) {
     const text = e.target.value.toLowerCase()
-
     document.querySelectorAll('.collection-item').forEach(
         function (task) {
             const item = task.firstChild.textContent
@@ -191,6 +180,4 @@ function filterTasks(e) {
             }
         }
     )
-
-
 }
