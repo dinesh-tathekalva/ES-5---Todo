@@ -7,7 +7,6 @@ const filter = document.querySelector('#filter')
 const taskInput = document.querySelector('#task')
 
 //Load all event listeners
-
 loadEventListerners()
 
 //Load all event listeners
@@ -30,14 +29,15 @@ function loadEventListerners() {
 
 //Get tasks from LS 
 function getTasks() {
+
     let tasks
     if (localStorage.getItem('tasks') === null) {
         tasks = []
+        tasklist.style.visibility = "hidden";
     }
     else {
         tasks = JSON.parse(localStorage.getItem('tasks'))
     }
-
     tasks.forEach(
         function (task) {
             //create li element
@@ -73,6 +73,7 @@ function addTask(e) {
         alert('Add a task')
     }
     else{
+        tasklist.style.visibility = "visible";
 
         //create li element
         const li = document.createElement('li')
@@ -131,7 +132,12 @@ function removeTask(e) {
             //Remove from LS
             removeTaskFromLocalStorage(e.target.parentElement.parentElement)
         }
+        
     }
+    // if(e.target.parentElement.parentElement === 0){
+    //     tasklist.style.visibility = "hidden";
+    // }
+
 }
 
 //Remove from LS
@@ -139,6 +145,7 @@ function removeTaskFromLocalStorage(taskItem){
     let tasks
     if (localStorage.getItem('tasks') === null) {
         tasks = []
+        
     }
     else {
         tasks = JSON.parse(localStorage.getItem('tasks'))
@@ -153,11 +160,13 @@ function removeTaskFromLocalStorage(taskItem){
 
 //Clear Tasks
 function clearTasks() {
-    debugger
     // tasklist.innerHTML = ''
+    if (confirm('Are you sure to clear all the tasks?')) {
     while (tasklist.firstChild) {
         tasklist.removeChild(tasklist.firstChild)
+        tasklist.style.visibility = "hidden";
     }
+}
     //Clear from LS
     clearTasksFromLocalStorage()
 }
@@ -168,15 +177,19 @@ function clearTasksFromLocalStorage(){
 
 //Filter Tasks
 function filterTasks(e) {
+    tasklist.style.visibility = "visible";
     const text = e.target.value.toLowerCase()
     document.querySelectorAll('.collection-item').forEach(
         function (task) {
             const item = task.firstChild.textContent
             if (item.toLocaleLowerCase().indexOf(text) != -1) {
                 task.style.display = 'block'
+                
             }
             else {
                 task.style.display = 'none'
+                // tasklist.style.visibility = "hidden";
+
             }
         }
     )
