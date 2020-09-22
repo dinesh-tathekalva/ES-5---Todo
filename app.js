@@ -9,6 +9,9 @@ const taskInput = document.querySelector('#task')
 //Load all event listeners
 loadEventListerners()
 
+console.log(tasklist.childElementCount)
+
+debugger
 //Load all event listeners
 function loadEventListerners() {
     //DOM load event
@@ -31,7 +34,7 @@ function loadEventListerners() {
 function getTasks() {
 
     let tasks
-    if (localStorage.getItem('tasks') === null) {
+    if (localStorage.getItem('tasks') == null) {
         tasks = []
         tasklist.style.visibility = "hidden";
     }
@@ -128,16 +131,10 @@ function removeTask(e) {
     if (e.target.parentElement.classList.contains('delete-item')) {
         if (confirm('Are you sure?')) {
             e.target.parentElement.parentElement.remove()
-
             //Remove from LS
-            removeTaskFromLocalStorage(e.target.parentElement.parentElement)
-        }
-        
+            removeTaskFromLocalStorage(e.target.parentElement.parentElement.textContent)
+        } 
     }
-    // if(e.target.parentElement.parentElement === 0){
-    //     tasklist.style.visibility = "hidden";
-    // }
-
 }
 
 //Remove from LS
@@ -145,14 +142,21 @@ function removeTaskFromLocalStorage(taskItem){
     let tasks
     if (localStorage.getItem('tasks') === null) {
         tasks = []
+        tasklist.style.visibility = "hidden";
+        clearTasksFromLocalStorage()
         
     }
     else {
         tasks = JSON.parse(localStorage.getItem('tasks'))
     }
+
     tasks.forEach(function(task, index){
-        if(taskItem.textContent === task){
+        if(taskItem.trim()  == task){
+            console.log(index);
             tasks.splice(index, 1)
+            if(tasks == 0) {
+                clearTasksFromLocalStorage()
+            }
         }
     })
     localStorage.setItem('tasks', JSON.stringify(tasks))
@@ -164,7 +168,6 @@ function clearTasks() {
     if (confirm('Are you sure to clear all the tasks?')) {
     while (tasklist.firstChild) {
         tasklist.removeChild(tasklist.firstChild)
-        tasklist.style.visibility = "hidden";
     }
 }
     //Clear from LS
@@ -173,6 +176,8 @@ function clearTasks() {
 //Clearing tasks from LS
 function clearTasksFromLocalStorage(){
     localStorage.clear()
+    tasklist.style.visibility = "hidden";
+
 }
 
 //Filter Tasks
