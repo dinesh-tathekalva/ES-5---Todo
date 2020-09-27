@@ -9,7 +9,13 @@ const taskInput = document.querySelector('#task')
 //Load all event listeners
 loadEventListerners()
 
-console.log(tasklist.childElementCount)
+function reset(){
+    let tasks
+    if (localStorage.getItem('tasks') == null) {
+        tasks = []
+        tasklist.style.visibility = "hidden";
+    }
+}
 
 debugger
 //Load all event listeners
@@ -144,7 +150,6 @@ function removeTaskFromLocalStorage(taskItem){
         tasks = []
         tasklist.style.visibility = "hidden";
         clearTasksFromLocalStorage()
-        
     }
     else {
         tasks = JSON.parse(localStorage.getItem('tasks'))
@@ -165,11 +170,17 @@ function removeTaskFromLocalStorage(taskItem){
 //Clear Tasks
 function clearTasks() {
     // tasklist.innerHTML = ''
-    if (confirm('Are you sure to clear all the tasks?')) {
-    while (tasklist.firstChild) {
-        tasklist.removeChild(tasklist.firstChild)
+    if(tasklist.firstChild == null){
+        alert('No tasks to clear')
     }
-}
+    else{
+        if (confirm('Are you sure to clear all the tasks?')) {
+            while (tasklist.firstChild) {
+                tasklist.removeChild(tasklist.firstChild)
+            }
+        }
+    }
+    
     //Clear from LS
     clearTasksFromLocalStorage()
 }
