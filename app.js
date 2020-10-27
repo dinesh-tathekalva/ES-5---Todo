@@ -189,6 +189,7 @@ function clearTasksFromLocalStorage(){
     localStorage.clear()
     tasklist.style.visibility = "hidden";
 
+    
 }
 
 //Filter Tasks
